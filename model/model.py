@@ -8,14 +8,10 @@ class SentimentModel(nn.Module):
         
         super().__init__()
         self.bert = bert
+       
         
 
-        self.layers = nn.Sequential(
-            nn.Linear(256,100),
-            nn.Sigmoid(),
-            nn.Linear(100,3),
-            nn.Softmax(dim=1),
-        )
+        
 
 
     def forward(self,text,tokenizer):
@@ -23,8 +19,14 @@ class SentimentModel(nn.Module):
         model_input = tokenizer(text,padding=True,return_tensors="pt")
         output = self.bert(**model_input)
         output = output[0][:,0,:]
-        print(output.shape)
+        #print(output.shape)
         final_out = self.layers(output)
         return final_out
+
+
+    def freeze_weights(self):
+        for param in self.bert.parameters():
+            param.require_grad = False
+
 
 
