@@ -19,4 +19,4 @@ sentiment = [0]*len(quotes)
 # Create the dataframe
 df = pd.DataFrame(list(zip(quotes, sentiment)), columns=['Quote', 'Sentiment'])
 
-df.to_csv('train.csv')
+df.to_csv('train_negative.csv')
