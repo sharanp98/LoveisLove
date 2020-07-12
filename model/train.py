@@ -60,7 +60,7 @@ def train_model(model,train,valid,optimizer,tokenizer):
 
         if(final_loss < best_val_loss):
             print("Saving Model\n")
-            torch.save(model.layers.state_dict(),'checkpoint.pth')
+            torch.save(model.state_dict(),'checkpoint.pth')
             best_val_loss = final_loss
 
 
@@ -87,11 +87,11 @@ val_loader = DataLoader(dataset,shuffle=False,batch_size=10,sampler=val_sampler)
 
 bert_model = AutoModel.from_pretrained('google/bert_uncased_L-4_H-256_A-4')
 bert_tokenizer = AutoTokenizer.from_pretrained('google/bert_uncased_L-4_H-256_A-4')
-model = SentimentModel(bert_model)
-model.freeze_weights()
+model = SentimentModel(bert_model.embeddings.word_embeddings)
+#model.freeze_weights()
 
 
-optimizer = torch.optim.Adam(model.layers.parameters(),lr=0.001)
+optimizer = torch.optim.Adam(model.parameters(),lr=0.001)
 train_model(model,train_dataloader,val_loader,optimizer,bert_tokenizer)
 
 
