@@ -20,7 +20,7 @@ class SentimentDataSet(Dataset):
     def __getitem__(self,idx):
 
         sentiment_text = str(self.sentiment_file.iloc[idx,1])
-        sentiment = int(self.sentiment_file.iloc[idx,0])
+        sentiment = int(self.sentiment_file.iloc[idx,2])
 
         ret_data = {'text': sentiment_text, 'sentiment':sentiment }
 
@@ -32,7 +32,7 @@ class SentimentDataSet(Dataset):
 def train_model(model,train,valid,optimizer,tokenizer):
     
     criterion = nn.CrossEntropyLoss()
-    epochs = 20
+    epochs = 50
     best_val_loss = 100
     for e in range(epochs):
         epoch_loss = 0
@@ -40,6 +40,8 @@ def train_model(model,train,valid,optimizer,tokenizer):
             model.zero_grad()
             optimizer.zero_grad()
             scores = model(data['text'],tokenizer)
+            
+            
             loss = criterion(scores,data['sentiment'])
 
             loss.backward()
@@ -60,38 +62,29 @@ def train_model(model,train,valid,optimizer,tokenizer):
 
         if(final_loss < best_val_loss):
             print("Saving Model\n")
-            torch.save(model.state_dict(),'checkpoint.pth')
+            torch.save(model.lstm.state_dict(),'rnn.pth')
+            torch.save(model.layers.state_dict(),'checkpoint.pth')
             best_val_loss = final_loss
 
 
+dataset = SentimentDataSet('train.csv')
 
+train_size = int(0.8 * len(dataset))
+val_size = len(dataset) - train_size
 
-dataset = SentimentDataSet('formatted_data.csv')
-dataset_size = len(dataset)
-#print(dataset_size)
-dataset_indices = list(range(dataset_size))
-np.random.shuffle(dataset_indices)
+train_data,val_data = torch.utils.data.random_split(dataset,[train_size,val_size])
 
-
-val_index = int(np.floor(0.32*dataset_size))
-
-train_idx , val_idx = dataset_indices[val_index:] , dataset_indices[:val_index]
-train_sampler = SubsetRandomSampler(train_idx)
-val_sampler = SubsetRandomSampler(val_idx)
-
-
-train_dataloader = DataLoader(dataset,shuffle=False,batch_size=10,sampler=train_sampler)
-val_loader = DataLoader(dataset,shuffle=False,batch_size=10,sampler=val_sampler)
+train_dataloader = DataLoader(train_data,shuffle=True,batch_size=1)
+val_loader = DataLoader(val_data,shuffle=True,batch_size=1)
 
 #print(next(iter(dataloader)))
 
 bert_model = AutoModel.from_pretrained('google/bert_uncased_L-4_H-256_A-4')
 bert_tokenizer = AutoTokenizer.from_pretrained('google/bert_uncased_L-4_H-256_A-4')
-model = SentimentModel(bert_model.embeddings.word_embeddings)
-#model.freeze_weights()
+model = SentimentModel(bert_model)
+model.freeze_weights()
 
-
-optimizer = torch.optim.Adam(model.parameters(),lr=0.001)
+optimizer = torch.optim.Adam(model.layers.parameters(),lr=0.001)
 train_model(model,train_dataloader,val_loader,optimizer,bert_tokenizer)
 
 

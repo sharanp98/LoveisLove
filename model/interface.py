@@ -6,9 +6,10 @@ import torch
 
 bert_model = AutoModel.from_pretrained('google/bert_uncased_L-4_H-256_A-4')
 bert_tokenizer = AutoTokenizer.from_pretrained('google/bert_uncased_L-4_H-256_A-4')
-model = SentimentModel(bert_model.embeddings.word_embeddings)
-#model.freeze_weights()
-model.load_state_dict(torch.load('checkpoint.pth'))
+model = SentimentModel(bert_model)
+model.freeze_weights()
+model.lstm.load_state_dict(torch.load('rnn.pth'))
+model.layers.load_state_dict(torch.load('checkpoint.pth'))
 model.eval()
 
 text = [ "happy" ,
@@ -20,7 +21,8 @@ text = [ "happy" ,
       "Labels are for filing. Labels are for clothing. Labels are not for people.",
       ]
 
-out=model(text,bert_tokenizer)
-print(out)
+for t in text:
+    out=model([t],bert_tokenizer)
+    print(out)
 
 #print(model)
