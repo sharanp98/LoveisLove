@@ -5,7 +5,7 @@ import pandas as pd
 import csv
 import torch
 
-s = [ "negative","random","positive"]
+s = [ "Negative","Random","Positive"]
 
 
 bert_model = AutoModel.from_pretrained('google/bert_uncased_L-4_H-256_A-4')
@@ -22,6 +22,8 @@ out_file = csv.writer(f)
 data = pd.read_csv('results_ocr.csv')
 
 
+out_file.writerow(['Filename','Category'])
+
 
 for idx,row in data.iterrows():
     if type(row['Text']) == float:
@@ -32,6 +34,15 @@ for idx,row in data.iterrows():
         out_file.writerow([row['Filename'],s[sentiment]])
 
 f.close()
+
+
+outputfile = pd.read_csv('result.csv')
+
+
+submission = outputfile.sort_values(by='Filename')
+submission.to_csv('submission.csv',index=False)
+
+
 
 
 
