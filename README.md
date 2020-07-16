@@ -21,3 +21,22 @@ The project is to build an engine that combines the concepts of OCR and NLP that
 - Data Scrapper : The data was scrapped from websites using BeautifulSoup. 
    - The scapper was built to extract 50 quotes from each category (Positive, Negative and Random)
    - These quotes were manually labelled as 0 for positive, 1 for negative and 2 for random.
+
+## 3. Deep Learning Model
+- The Deep Learning Model uses a transfer learning approach in which the pretrained model used is BERT(https://arxiv.org/abs/1810.04805)
+- We have used the pretrained BERT model from transformers(https://huggingface.co/transformers/) having 4 layers with a hidden dimension size of 256.
+- Model Archtiecture
+  
+  <img src="https://i.imgur.com/lsrPmdH.png" alt="drawing" style="width:200px;height:200px;"/>
+  
+- Parameters of the BERT model are fixed while the parameters of the RNN and the Linear layer can be trained.
+- Model can be found at 3_Model directory
+   - model.py  = Model Architecture
+   - train.py  = Code for training the model using a training data provided as csv 
+   - interface.py = Code for performing inference using the trained model
+
+
+ ## References 
+   - http://jalammar.github.io/a-visual-guide-to-using-bert-for-the-first-time/
+   
+This project was done as a part of HackerEarth Machine Learning challenge: Love is love (https://www.hackerearth.com/challenges/competitive/hackerearth-machine-learning-challenge-pride-month-edition/problems/)
