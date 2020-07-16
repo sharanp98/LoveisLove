@@ -27,7 +27,7 @@ out_file.writerow(['Filename','Category'])
 
 for idx,row in data.iterrows():
     if type(row['Text']) == float:
-        out_file.writerow([row['Filename'],"random"])
+        out_file.writerow([row['Filename'],"Random"])
     else:
         scores = model([row['Text']],bert_tokenizer)
         sentiment = torch.argmax(torch.exp(scores),dim=1)
