@@ -23,8 +23,8 @@ The project is to build an engine that combines the concepts of OCR and NLP that
    - These quotes were manually labelled as 0 for positive, 1 for negative and 2 for random.
 
 ## 3. Deep Learning Model
-- The Deep Learning Model uses a transfer learning approach in which the pretrained model used is BERT(https://arxiv.org/abs/1810.04805)
-- We have used the pretrained BERT model from transformers(https://huggingface.co/transformers/) having 4 layers with a hidden dimension size of 256.
+- The Deep Learning Model uses a transfer learning approach in which the pretrained model used is [BERT](https://arxiv.org/abs/1810.04805)
+- We have used the pretrained BERT model from [transformers](https://huggingface.co/transformers/) having 4 layers with a hidden dimension size of 256.
 - Model Archtiecture
   
   <img src="https://i.imgur.com/lsrPmdH.png" alt="drawing" style="width:200px;height:200px;"/>
@@ -39,4 +39,4 @@ The project is to build an engine that combines the concepts of OCR and NLP that
  ## References 
    - http://jalammar.github.io/a-visual-guide-to-using-bert-for-the-first-time/
    
-This project was done as a part of HackerEarth Machine Learning challenge: Love is love (https://www.hackerearth.com/challenges/competitive/hackerearth-machine-learning-challenge-pride-month-edition/problems/)
+This project was done as a part of HackerEarth Machine Learning challenge: [Love is love](https://www.hackerearth.com/challenges/competitive/hackerearth-machine-learning-challenge-pride-month-edition/problems/)
