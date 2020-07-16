@@ -25,7 +25,7 @@ The project is to build an engine that combines the concepts of OCR and NLP that
 ## 3. Deep Learning Model
 - The Deep Learning Model uses a transfer learning approach in which the pretrained model used is [BERT](https://arxiv.org/abs/1810.04805)
 - We have used the pretrained BERT model from [transformers](https://huggingface.co/transformers/) having 4 layers with a hidden dimension size of 256.
-- Model Archtiecture
+- Model Architecture
   
   <img src="https://i.imgur.com/lsrPmdH.png" alt="drawing" style="width:200px;height:200px;"/>
   
